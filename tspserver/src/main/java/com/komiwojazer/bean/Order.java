@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Order {
     private Date date_of_order;
 
     @ManyToOne
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "username")
     private User user;
 
     public long getId_order() {

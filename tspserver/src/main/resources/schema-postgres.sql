@@ -27,6 +27,12 @@ create table orders (
     foreign key (username) references users (username)
 );
 
+create table workers (
+    id_worker SERIAL PRIMARY KEY,
+    port INT,
+    ip_address VARCHAR(200)
+);
+
 insert into users(username, password, enabled)values('Jan','Kowalski',true);
 insert into users(username, password, enabled)values('Barbara','Witek',true);
 insert into users(username, password, enabled)values('Piotrek','Nowak',true);
@@ -39,4 +45,4 @@ insert into authorities(username,authority)values('Piotrek','USER');
 insert into authorities(username,authority)values('Michal','USER');
 insert into authorities(username,authority)values('Magdalena','USER');
 
-
+insert into orders (id_order,cost,path,matrix,date_of_order,username)values(1,100,'01230','0234103412041230','2019-04-04','Jan');
