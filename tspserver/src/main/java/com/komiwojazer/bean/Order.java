@@ -76,4 +76,34 @@ public class Order {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id_order == order.id_order &&
+                cost == order.cost &&
+                Objects.equals(path, order.path) &&
+                Objects.equals(matrix, order.matrix) &&
+                Objects.equals(date_of_order, order.date_of_order) &&
+                Objects.equals(user, order.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id_order, cost, path, matrix, date_of_order, user);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id_order=" + id_order +
+                ", cost=" + cost +
+                ", path='" + path + '\'' +
+                ", matrix='" + matrix + '\'' +
+                ", date_of_order=" + date_of_order +
+                ", user=" + user +
+                '}';
+    }
 }

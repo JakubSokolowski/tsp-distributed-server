@@ -43,7 +43,7 @@ public class MyConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource);
-
+        
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MyConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/Orders").hasAuthority("USER")
+                .antMatchers("/Orders").hasAuthority("USER")
                 .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//We don't need sessions to be created.
     }
