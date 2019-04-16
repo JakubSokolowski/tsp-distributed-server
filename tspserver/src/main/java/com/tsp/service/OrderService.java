@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.komiwojazer.service;
+package com.tsp.service;
 
-import com.komiwojazer.bean.Order;
-import com.komiwojazer.repository.OrderRepository;
+import com.tsp.bean.Order;
+import com.tsp.repository.OrderRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +31,10 @@ public class OrderService {
         repository.delete(id);
     }
     public void updateOne(Order order) {
-        Order updatingOrder = repository.findOne(order.getId_order());
+        Order updatingOrder = repository.findOne(order.getOrderId());
         updatingOrder.setCost(order.getCost());
-        updatingOrder.setDate_of_order(order.getDate_of_order());
-        updatingOrder.setId_order(order.getId_order());
+        updatingOrder.setDateOfOrder(order.getDateOfOrder());
+        updatingOrder.setOrderId(order.getOrderId());
         updatingOrder.setMatrix(order.getMatrix());
         updatingOrder.setPath(order.getPath());
         repository.save(updatingOrder);

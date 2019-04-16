@@ -1,9 +1,7 @@
-DROP TABLE IF EXISTS cities;
-
 DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS users;
-
+DROP TABLE IF EXISTS workers;
 
 create table users (
     username varchar(50) not null primary key,
@@ -18,7 +16,7 @@ create table authorities (
 );
 
 create table orders (
-    id_order SERIAL PRIMARY KEY,
+    order_id SERIAL PRIMARY KEY,
     cost INT,
     path VARCHAR(200),
     matrix VARCHAR(200),
@@ -28,7 +26,7 @@ create table orders (
 );
 
 create table workers (
-    id_worker SERIAL PRIMARY KEY,
+    worker_id SERIAL PRIMARY KEY,
     port INT,
     ip_address VARCHAR(200)
 );
@@ -45,4 +43,4 @@ insert into authorities(username,authority)values('Piotrek','USER');
 insert into authorities(username,authority)values('Michal','USER');
 insert into authorities(username,authority)values('Magdalena','USER');
 
-insert into orders (id_order,cost,path,matrix,date_of_order,username)values(1,100,'01230','0234103412041230','2019-04-04','Jan');
+insert into orders (order_id,cost,path,matrix,date_of_order,username)values(1,100,'01230','0234103412041230','2019-04-04','Jan');

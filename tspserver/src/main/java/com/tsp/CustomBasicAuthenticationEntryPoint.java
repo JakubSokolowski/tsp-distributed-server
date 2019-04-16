@@ -1,4 +1,4 @@
-package com.komiwojazer;
+package com.tsp;
 
 import java.io.IOException;
 import java.io.PrintWriter;

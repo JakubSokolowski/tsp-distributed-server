@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.komiwojazer.controller;
+package com.tsp.controller;
 
-import com.komiwojazer.bean.Order;
-import com.komiwojazer.service.OrderService;
+import com.tsp.bean.Order;
+import com.tsp.service.OrderService;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

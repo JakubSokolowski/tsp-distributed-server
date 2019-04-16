@@ -1,21 +1,16 @@
-package com.komiwojazer.bean;
+package com.tsp.bean;
 
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id_order;
+    @Column(name = "order_id")
+    private long orderId;
 
     private int cost;
 
@@ -23,18 +18,19 @@ public class Order {
 
     private String matrix;
 
-    private Date date_of_order;
+    @Column(name = "date_of_order")
+    private Date dateOfOrder;
 
     @ManyToOne
     @JoinColumn(name = "username")
     private User user;
 
-    public long getId_order() {
-        return id_order;
+    public long getOrderId() {
+        return orderId;
     }
 
-    public void setId_order(long id_order) {
-        this.id_order = id_order;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
     public int getCost() {
@@ -61,12 +57,12 @@ public class Order {
         this.matrix = matrix;
     }
 
-    public Date getDate_of_order() {
-        return date_of_order;
+    public Date getDateOfOrder() {
+        return dateOfOrder;
     }
 
-    public void setDate_of_order(Date date_of_order) {
-        this.date_of_order = date_of_order;
+    public void setDateOfOrder(Date dateOfOrder) {
+        this.dateOfOrder = dateOfOrder;
     }
 
     public User getUser() {
@@ -82,27 +78,27 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id_order == order.id_order &&
+        return orderId == order.orderId &&
                 cost == order.cost &&
                 Objects.equals(path, order.path) &&
                 Objects.equals(matrix, order.matrix) &&
-                Objects.equals(date_of_order, order.date_of_order) &&
+                Objects.equals(dateOfOrder, order.dateOfOrder) &&
                 Objects.equals(user, order.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_order, cost, path, matrix, date_of_order, user);
+        return Objects.hash(orderId, cost, path, matrix, dateOfOrder, user);
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "id_order=" + id_order +
+                "orderId=" + orderId +
                 ", cost=" + cost +
                 ", path='" + path + '\'' +
                 ", matrix='" + matrix + '\'' +
-                ", date_of_order=" + date_of_order +
+                ", dateOfOrder=" + dateOfOrder +
                 ", user=" + user +
                 '}';
     }
