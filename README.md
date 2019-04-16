@@ -1,4 +1,6 @@
 # tsp-distributed-server
+    Postgresql
+    Wersja: 11.2
 ### Requirements installation
     sudo apt-get install python3.6
     sudo apt-get install python3-pip
