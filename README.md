@@ -1,7 +1,11 @@
 # tsp-distributed-server
     Postgresql
     Wersja: 11.2
-### Requirements installation
+### Requirements installation and setup
+#### Java 1.8
+    sudo apt install openjdk-8-jdk
+#### Maven
+    sudo apt-get install maven
 #### Install Postgress and pgadmin4 (tested on Ubuntu 18.04)
     sudo apt-get install curl ca-certificates
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -    
