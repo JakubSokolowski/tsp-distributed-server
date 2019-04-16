@@ -2,21 +2,13 @@
     Postgresql
     Wersja: 11.2
 ### Requirements installation
-    sudo apt-get install python3.6
-    sudo apt-get install python3-pip
-    sudo pip3 install virtualenv 
-### Project Setup
-    1. Clone project using SSH and cd onto project dir
-    2. Create virtual environment - virtualenv -p python3 env 
-    2. Activate virtual environment - source env/bin/activate
-    3. Install recquired packages - pi3 install -r requirements.txt
-       NOTE - update the requirements after adding new packages - pip freeze > requirements.txt
-### Basic Server Commands (run from tspserver/tspserver dir)
-    Start server - python3 manage.py runserver
-    Run migrations - python3 manage.py migrate
-### GET example
-    http://127.0.0.1:8000/bnb/1/
-### POST example
-    curl -v -H "Content-Type: application/json" -X PUT -d '{"lower_bound": 420}' http://127.0.0.1:8000/bnb/1/
-
-
+#### Install Postgress and pgadmin4 (tested on Ubuntu 18.04)
+    sudo apt-get install curl ca-certificates
+    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -    
+    sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    sudo apt-get update
+    sudo apt-get install postgresql-11 pgadmin4
+#### Setup pgadmin4
+    sudo -u postgres psql postgres
+    alter user postgres with password 'postgres';
+Run pgAdmin 4, and using add server dialog create local server with adress `localhost`, user `postgres` and password `postgres`.
