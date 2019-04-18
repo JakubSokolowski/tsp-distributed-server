@@ -10,8 +10,9 @@ public class Application {
 
     public static void main(String[] args) {
         ClusterServer cs = new ClusterServer(42069);
-        SpringApplication.run(Application.class, args);
+        //SpringApplication.run(Application.class, args);
         new Thread(cs).start();
+        System.out.println("Starting Server");
         try {
             Thread.sleep(1000 * 1000);
         } catch (InterruptedException e) {

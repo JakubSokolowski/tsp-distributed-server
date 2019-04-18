@@ -1,8 +1,6 @@
 package com.tsp.socket;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class ConnectionHandler implements Runnable {
@@ -18,16 +16,25 @@ public class ConnectionHandler implements Runnable {
         try {
             InputStream input  = clientSocket.getInputStream();
             OutputStream output = clientSocket.getOutputStream();
-            long time = System.currentTimeMillis();
-            output.write(("HTTP/1.1 200 OK\n\nWorkerRunnable: " +
-                    this.serverText + " - " +
-                    time +
-                    "").getBytes());
-            output.close();
-            input.close();
-            System.out.println("Request processed: " + time);
-        } catch (IOException e) {
-            //report exception somewhere.
+            String str;
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+            PrintWriter pw = new PrintWriter(output, true);
+
+            int counter = 0;
+            while((str = br.readLine()) != null) {
+                Thread.sleep(1000);
+                counter++;
+                str = "Server returns " + str + Integer.toString(counter);
+                System.out.println(str);
+                pw.println(str);
+                System.out.println("Server send message...");
+                long time = System.currentTimeMillis();
+                System.out.println("Request processed: " + time);
+            }
+            System.out.println("Finished communication");
+
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
