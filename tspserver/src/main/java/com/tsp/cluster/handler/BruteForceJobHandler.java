@@ -1,17 +1,19 @@
-package com.tsp.socket;
+package com.tsp.cluster.handler;
+
+import com.google.gson.Gson;
+import com.tsp.cluster.job.JobContext;
+import com.tsp.cluster.task.context.BruteForceTaskContext;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ConnectionHandler implements Runnable {
-    private Socket clientSocket;
-    private String serverText;
-
-    ConnectionHandler(Socket clientSocket, String serverText) {
-        this.clientSocket = clientSocket;
-        this.serverText   = serverText;
+public class BruteForceJobHandler extends JobHandler {
+    public BruteForceJobHandler(Socket clientSocket, JobContext jobContext) {
+        super(clientSocket, jobContext);
     }
 
+    private Gson gson = new Gson();
+    @Override
     public void run() {
         try {
             InputStream input  = clientSocket.getInputStream();
@@ -22,10 +24,18 @@ public class ConnectionHandler implements Runnable {
             PrintWriter pw = new PrintWriter(output, true);
 
             int counter = 0;
+
+            sendContext();
             while((str = br.readLine()) != null) {
+                System.out.println("Server received " + str);
                 Thread.sleep(1000);
+                if(!jobContext.areAnyTasksAvailable()) {
+                    sendStopMessage();
+                    break;
+                }
+                BruteForceTaskContext task = (BruteForceTaskContext) jobContext.getNextAvailableTask();
+                str = gson.toJson(task);
                 counter++;
-                str = "Server returns " + str + Integer.toString(counter);
                 System.out.println(str);
                 pw.println(str);
                 System.out.println("Server send message...");

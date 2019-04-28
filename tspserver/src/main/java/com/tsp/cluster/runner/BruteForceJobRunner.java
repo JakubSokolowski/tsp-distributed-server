@@ -1,28 +1,33 @@
-package com.tsp.socket;
+package com.tsp.cluster.runner;
 
+import com.tsp.cluster.job.BruteForceJobContext;
+import com.tsp.cluster.handler.BruteForceJobHandler;
+import com.tsp.cluster.handler.JobHandler;
+
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ClusterServer implements Runnable{
-
-    private int          serverPort;
+public class BruteForceJobRunner implements Runnable {
+    private BruteForceJobContext jobContext;
+    private int serverPort = 42069;
     private ServerSocket serverSocket = null;
-    private boolean      isStopped    = false;
-    private Thread       runningThread;
-    private ExecutorService threadPool =
-            Executors.newFixedThreadPool(10);
+    private boolean isStopped = false;
+    private Thread runningThread;
+    private ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
-    public ClusterServer(int port){
-        this.serverPort = port;
+    public BruteForceJobRunner(BruteForceJobContext jobContext) {
+        this.jobContext = jobContext;
     }
 
-    public void run(){
-        synchronized(this){
+    @Override
+    public void run() {
+        synchronized (this) {
             this.runningThread = Thread.currentThread();
         }
+
         openServerSocket();
         while(! isStopped()){
             Socket clientSocket;
@@ -30,20 +35,20 @@ public class ClusterServer implements Runnable{
                 clientSocket = this.serverSocket.accept();
             } catch (IOException e) {
                 if(isStopped()) {
-                    System.out.println("Server Stopped.") ;
+                    System.out.println("Server is stopped.") ;
                     break;
                 }
-                throw new RuntimeException(
-                        "Error accepting client connection", e);
+                throw new RuntimeException("Error accepting client connection", e);
             }
-            this.threadPool.execute(
-                    new ConnectionHandler(clientSocket,
-                            "Thread Pooled Server"));
+            System.out.println(jobContext.getNumOfAvailableTasks());
+            if(!jobContext.areAnyTasksAvailable()) stop();
+            this.threadPool.execute(new BruteForceJobHandler(clientSocket, jobContext));
+
+
         }
         this.threadPool.shutdown();
-        System.out.println("Server Stopped.") ;
+        System.out.println("Server Stopped.");
     }
-
 
     private synchronized boolean isStopped() {
         return this.isStopped;
@@ -65,4 +70,5 @@ public class ClusterServer implements Runnable{
             throw new RuntimeException("Cannot open port " + Integer.toString(serverPort), e);
         }
     }
+
 }
