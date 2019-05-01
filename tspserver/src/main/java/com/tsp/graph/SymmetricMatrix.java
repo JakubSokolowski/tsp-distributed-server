@@ -19,7 +19,7 @@ public class SymmetricMatrix extends GraphRepresentation {
 
     @Override
     public boolean isConnected(int source, int destination) {
-        return costMatrix.get(source).get(destination) != Integer.MIN_VALUE;
+        return costMatrix.get(source).get(destination) != Integer.MAX_VALUE;
     }
 
     @Override
