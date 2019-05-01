@@ -96,7 +96,7 @@ public class Order {
         return "Order{" +
                 "orderId=" + orderId +
                 ", cost=" + cost +
-                ", path='" + path + '\'' +
+                ", tour='" + path + '\'' +
                 ", matrix='" + matrix + '\'' +
                 ", dateOfOrder=" + dateOfOrder +
                 ", user=" + user +

@@ -44,8 +44,8 @@ public class BruteForceTaskProvider implements TaskProvider {
      */
     private void initTasks() {
         int numOfCities = graph.getNumOfCities();
-        for(int i = 1; i <= numOfCities; i++) {
-            for(int j = 1; j <= numOfCities ; j++){
+        for(int i = 2; i <= numOfCities; i++) {
+            for(int j = 2; j <= numOfCities ; j++){
                 if(i == j) continue;
                 ArrayList<Integer> lockedCities = new ArrayList<>(Arrays.asList(i,j));
                 taskQueue.add(new BruteForceTaskContext(lockedCities));

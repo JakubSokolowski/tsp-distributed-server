@@ -31,7 +31,7 @@ public class JobContext {
 
     public GraphRepresentation getProblemData() {return taskProvider.getProblemData();}
 
-    private synchronized void updateSolution(Solution solution) {
+    public synchronized void updateSolution(Solution solution) {
         if(bestSolution.compareTo(solution) < 0) {
             bestSolution = solution;
             System.out.println("Found new best solution!");

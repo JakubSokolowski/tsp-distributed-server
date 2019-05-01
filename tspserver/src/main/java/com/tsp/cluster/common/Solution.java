@@ -3,25 +3,22 @@ package com.tsp.cluster.common;
 import java.util.ArrayList;
 
 public class Solution implements Comparable<Solution> {
-    private int cost;
-    private ArrayList<Integer> path;
+    public int cost;
+    public ArrayList<Integer> tour;
 
     public Solution() {
         this.cost = Integer.MAX_VALUE;
-        this.path = new ArrayList<>();
+        this.tour = new ArrayList<>();
     }
-    public Solution(int cost, ArrayList<Integer> path){
+    public Solution(int cost, ArrayList<Integer> tour){
         this.cost = cost;
-        this.path = path;
+        this.tour = tour;
     }
 
     public Solution(int cost) {
         this.cost = cost;
     }
 
-    public Solution(String str) {
-
-    }
 
     @Override
     public int compareTo(Solution other) {

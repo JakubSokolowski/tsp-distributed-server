@@ -18,7 +18,7 @@ create table authorities (
 create table orders (
     order_id SERIAL PRIMARY KEY,
     cost INT,
-    path VARCHAR(200),
+    tour VARCHAR(200),
     matrix VARCHAR(200),
     date_of_order DATE,
     username varchar(50) not null,
@@ -43,4 +43,4 @@ insert into authorities(username,authority)values('Piotrek','USER');
 insert into authorities(username,authority)values('Michal','USER');
 insert into authorities(username,authority)values('Magdalena','USER');
 
-insert into orders (order_id,cost,path,matrix,date_of_order,username)values(1,100,'01230','0234103412041230','2019-04-04','Jan');
+insert into orders (order_id,cost,tour,matrix,date_of_order,username)values(1,100,'01230','0234103412041230','2019-04-04','Jan');

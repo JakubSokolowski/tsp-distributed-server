@@ -1,6 +1,7 @@
 package com.tsp.cluster.handler;
 
 import com.google.gson.Gson;
+import com.tsp.cluster.common.Solution;
 import com.tsp.cluster.job.JobContext;
 import com.tsp.cluster.task.context.BruteForceTaskContext;
 
@@ -24,16 +25,30 @@ public class BruteForceJobHandler extends JobHandler {
             PrintWriter pw = new PrintWriter(output, true);
 
             int counter = 0;
-
+            while(!(str = br.readLine()).equals("READY")){
+                continue;
+            }
             sendContext();
+            if(!(str = br.readLine()).equals("RECEIVED_CONTEXT"))
+                throw new IOException("Error while sending context");
+
+            BruteForceTaskContext task = (BruteForceTaskContext) jobContext.getNextAvailableTask();
+            str = gson.toJson(task);
+            counter++;
+            System.out.println(str);
+            pw.println(str);
+
             while((str = br.readLine()) != null) {
+                Thread.sleep(5000);
                 System.out.println("Server received " + str);
-                Thread.sleep(1000);
+                Solution sol = gson.fromJson(str, Solution.class);
+                jobContext.updateSolution(sol);
                 if(!jobContext.areAnyTasksAvailable()) {
                     sendStopMessage();
+                    System.out.println(gson.toJson(jobContext.getBestSolution()));
                     break;
                 }
-                BruteForceTaskContext task = (BruteForceTaskContext) jobContext.getNextAvailableTask();
+                task = (BruteForceTaskContext) jobContext.getNextAvailableTask();
                 str = gson.toJson(task);
                 counter++;
                 System.out.println(str);
