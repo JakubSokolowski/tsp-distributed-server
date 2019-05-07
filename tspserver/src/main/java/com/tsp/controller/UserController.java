@@ -58,9 +58,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/Uzytkownicy",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity insertUser(@Valid @RequestBody User user){
+    public ResponseEntity insertUser(@Validated({RegistrationValidateGroup.class}) @RequestBody User user){
         if(userService.insertOne(user))
         {
+
             return new ResponseEntity<String>("Rejestracja powiodła się!",HttpStatus.OK);
         }else return new ResponseEntity<String[]>( new String[] {"Istnieje już konto z taką nazwą użytkownika!"} ,HttpStatus.BAD_REQUEST);
     }

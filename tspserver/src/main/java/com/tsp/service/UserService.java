@@ -5,11 +5,13 @@
  */
 package com.tsp.service;
 
+import com.tsp.bean.Authority;
 import com.tsp.bean.User;
 import com.tsp.repository.AuthorityRepository;
 import com.tsp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,15 +39,22 @@ public class UserService {
 
         repository.delete(username);
     }
+
+    @Transactional
     public void updateOne(String username,User user) {
         User updatingUser = repository.findOne(username);
         updatingUser.setPassword(user.getPassword());
         repository.save(updatingUser);
     }
+    @Transactional
     public boolean insertOne(User user) {
-        List<User> lc = (List<User>)repository.findOne(user.getUsername());
-        if(lc.size() == 0) {
+        User lc = repository.findOne(user.getUsername());
+        if(lc == null) {
             repository.save(user);
+            Authority authority = new Authority();
+            authority.setAuthority("USER");
+            authority.setUser(user);
+            authorityRepository.save(authority);
             return true;
         }
         return false;

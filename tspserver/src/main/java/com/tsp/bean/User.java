@@ -21,7 +21,6 @@ import javax.validation.constraints.Size;
 @Table(name = "users")
 public class User implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank(groups = {RegistrationValidateGroup.class},message = "Nazwa użytkownika jest wymagana!")
     @NotEmpty(groups = {RegistrationValidateGroup.class},message = "Nazwa użytkownika jest wymagana!")
     @Size(groups = {RegistrationValidateGroup.class},min = 4,max = 20,message = "Nazwa użytkownika musi mieć długość od 4 do 20 znaków!")
