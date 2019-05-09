@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOError;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,7 +50,12 @@ public class FileController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity insertFile(@RequestParam("file") MultipartFile file) throws IOException {
-        File newFile = new File(file.getOriginalFilename());
+        String directoryName = "./files";
+        Path path = Paths.get(directoryName);
+        if (!Files.exists(path)) {
+            Files.createDirectory(path);
+        }
+        File newFile = new File(directoryName + "/" + file.getOriginalFilename());
         newFile.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(newFile);
         fileOutputStream.write(file.getBytes());
