@@ -55,8 +55,8 @@ public class FileController {
         if (!Files.exists(path)) {
             Files.createDirectory(path);
         }
-        File newFile = new File(directoryName + "/" + file.getOriginalFilename());
-        newFile.createNewFile();
+        File newFile = File.createTempFile("tsp_",".txt",new File(directoryName ));
+        //newFile.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(newFile);
         fileOutputStream.write(file.getBytes());
         fileOutputStream.close();
