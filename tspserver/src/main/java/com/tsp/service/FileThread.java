@@ -1,5 +1,7 @@
 package com.tsp.service;
 
+import com.tsp.cluster.common.Algorithm;
+import com.tsp.cluster.instance.ProblemInstance;
 import com.tsp.graph.SymmetricMatrix;
 
 import java.io.IOException;
@@ -48,6 +50,7 @@ public class FileThread extends Thread {
             SymmetricMatrix sm = new SymmetricMatrix(matrix);
             Files.deleteIfExists(Paths.get(this.path));
             System.out.println(sm);
+            ProblemInstance problem = new ProblemInstance(Algorithm.BRUTE_FORCE, sm);
         } catch (IOException e) {
             e.printStackTrace();
         }
