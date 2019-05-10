@@ -43,8 +43,8 @@ public class FileThread extends Thread {
                         matrix.add(bufor);
                     }
                 }
-
             }
+            for(int i = 0;i<words.size();i++)matrix.get(i).set(i,Integer.MAX_VALUE);
             SymmetricMatrix sm = new SymmetricMatrix(matrix);
             Files.deleteIfExists(Paths.get(this.path));
             System.out.println(sm);
