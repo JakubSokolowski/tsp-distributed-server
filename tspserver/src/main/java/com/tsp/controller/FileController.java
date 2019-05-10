@@ -1,6 +1,7 @@
 package com.tsp.controller;
 
 import com.tsp.bean.Order;
+import com.tsp.service.FileThread;
 import com.tsp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,10 +57,11 @@ public class FileController {
             Files.createDirectory(path);
         }
         File newFile = File.createTempFile("tsp_",".txt",new File(directoryName ));
-        //newFile.createNewFile();
         FileOutputStream fileOutputStream = new FileOutputStream(newFile);
         fileOutputStream.write(file.getBytes());
         fileOutputStream.close();
+        FileThread ft = new FileThread(newFile.getAbsolutePath());
+        ft.start();
         return new ResponseEntity("Wysyłanie pliku powiodło się!", HttpStatus.OK);
     }
 
