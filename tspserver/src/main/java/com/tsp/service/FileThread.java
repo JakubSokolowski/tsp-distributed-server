@@ -65,11 +65,9 @@ public class FileThread extends Thread {
             for(int i = 0;i<size;i++)matrix.get(i).set(i,Integer.MAX_VALUE);
             SymmetricMatrix sm = new SymmetricMatrix(matrix);
             Files.deleteIfExists(Paths.get(this.path));
-            //System.out.println(sm);
             ProblemInstance problem = new ProblemInstance(Algorithm.BRUTE_FORCE, sm);
             problemRepository.save(problem);
-            problem = problemRepository.findUsolvedInstanceProblem();
-            System.out.println(problem.getGraph().getCost(0,3));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
