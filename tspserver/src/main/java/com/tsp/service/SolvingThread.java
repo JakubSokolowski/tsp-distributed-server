@@ -1,6 +1,7 @@
 package com.tsp.service;
 
 import com.tsp.cluster.common.Algorithm;
+import com.tsp.cluster.instance.HardcodedInstanceProvider;
 import com.tsp.cluster.instance.ProblemInstance;
 import com.tsp.cluster.job.BruteForceJobContext;
 import com.tsp.cluster.runner.BruteForceJobRunner;
@@ -35,16 +36,25 @@ public class SolvingThread extends Thread {
             ProblemInstance p = problemRepository.findUsolvedInstanceProblem();
             if(p != null && p.getCost() < 0 && problemRepository.findProblemWhichIsSolvingAtTheMoment() == null)
             {
+                System.out.println("New Task!");
                 p.setSolving(true);
                 problemRepository.save(p);
 
                 //Tu ma rozwiązywać i zapisać wynik do bazy
 
-                //ProblemInstance problemInstance = new HardcodedInstanceProvider().getProblemInstance();
-                //BruteForceTaskProvider bftp = new BruteForceTaskProvider(p.getGraph());
-                //BruteForceJobContext context = new BruteForceJobContext(bftp);
-                //BruteForceJobRunner rn = new BruteForceJobRunner(context);
-                //new Thread(rn).start();
+                BruteForceTaskProvider bftp = new BruteForceTaskProvider(p.getGraph());
+                BruteForceJobContext context = new BruteForceJobContext(bftp);
+                BruteForceJobRunner rn = new BruteForceJobRunner(context);
+                new Thread(rn).start();
+                // hakierka straszna na demo
+                while(context.areAnyTasksAvailable()) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println(context.getBestSolution().toString());
                 //Tutaj zapisz jakoś wynik albo w innym odpowiednim miejscu
                 System.out.println("Starting Server");
 

@@ -39,7 +39,6 @@ public class BruteForceJobHandler extends JobHandler {
             pw.println(str);
 
             while((str = br.readLine()) != null) {
-                Thread.sleep(5000);
                 System.out.println("Server received " + str);
                 Solution sol = gson.fromJson(str, Solution.class);
                 jobContext.updateSolution(sol);
@@ -59,7 +58,7 @@ public class BruteForceJobHandler extends JobHandler {
             }
             System.out.println("Finished communication");
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException  e) {
             e.printStackTrace();
         }
     }
