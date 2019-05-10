@@ -30,7 +30,8 @@ create table orders (
 create table problems (
     problem_id SERIAL PRIMARY KEY,
     graph oid,
-    cost INT
+    cost INT,
+    is_solving boolean
 );
 
 create table workers (

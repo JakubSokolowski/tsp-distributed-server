@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 @Component
-public class FileThread extends Thread {
+public class FileThread {
     @Autowired
     ProblemInstanceRepository problemRepository;
 
@@ -33,10 +33,9 @@ public class FileThread extends Thread {
         this.path = path;
     }
 
-    @Override
+
     public void run() {
         Vector<Vector<Integer>> matrix = new Vector<Vector<Integer>>();
-        super.run();
         try {
             String data = "";
             data = new String(Files.readAllBytes(Paths.get(path)));

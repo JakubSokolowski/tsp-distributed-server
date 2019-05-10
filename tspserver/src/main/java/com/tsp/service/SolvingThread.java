@@ -33,27 +33,26 @@ public class SolvingThread extends Thread {
         while(true)
         {
             ProblemInstance p = problemRepository.findUsolvedInstanceProblem();
-            if(p != null)
+            if(p != null && p.getCost() < 0 && problemRepository.findProblemWhichIsSolvingAtTheMoment() == null)
             {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                p.setSolving(true);
+                problemRepository.save(p);
+
+                //Tu ma rozwiązywać i zapisać wynik do bazy
 
                 //ProblemInstance problemInstance = new HardcodedInstanceProvider().getProblemInstance();
-                BruteForceTaskProvider bftp = new BruteForceTaskProvider(p.getGraph());
-                BruteForceJobContext context = new BruteForceJobContext(bftp);
-                BruteForceJobRunner rn = new BruteForceJobRunner(context);
-                new Thread(rn).start();
+                //BruteForceTaskProvider bftp = new BruteForceTaskProvider(p.getGraph());
+                //BruteForceJobContext context = new BruteForceJobContext(bftp);
+                //BruteForceJobRunner rn = new BruteForceJobRunner(context);
+                //new Thread(rn).start();
                 //Tutaj zapisz jakoś wynik albo w innym odpowiednim miejscu
                 System.out.println("Starting Server");
 
 
-                //p.setCost(300);
-                //ProblemInstance saving = problemRepository.findOne(p.getId());
-                //saving.setCost(p.getCost());
-                //problemRepository.save(p);
+                p.setCost(300);
+                p.setSolving(false);
+                problemRepository.save(p);
+
             }
         }
 

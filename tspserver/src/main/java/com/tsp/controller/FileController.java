@@ -64,7 +64,7 @@ public class FileController {
         fileOutputStream.write(file.getBytes());
         fileOutputStream.close();
         ft.setPath(newFile.getAbsolutePath());
-        ft.start();
+        ft.run();
         return new ResponseEntity("Wysyłanie pliku powiodło się!", HttpStatus.OK);
     }
 

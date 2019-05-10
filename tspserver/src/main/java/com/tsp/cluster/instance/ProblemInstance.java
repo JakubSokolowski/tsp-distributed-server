@@ -18,6 +18,7 @@ public class ProblemInstance {
         algorithm = alg;
         this.graph = graph;
         this.cost = Integer.MIN_VALUE;
+        isSolving = false;
     }
 
     public void setAlgorithm(Algorithm algorithm) {
@@ -45,6 +46,14 @@ public class ProblemInstance {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public boolean isSolving() {
+        return isSolving;
+    }
+
+    public void setSolving(boolean solving) {
+        isSolving = solving;
     }
 
     @Override
@@ -84,4 +93,7 @@ public class ProblemInstance {
     private GraphRepresentation graph;
 
     private int cost;
+
+    @Column(name = "is_solving")
+    private boolean isSolving;
 }

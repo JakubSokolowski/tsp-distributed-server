@@ -19,5 +19,8 @@ public interface ProblemInstanceRepository extends CrudRepository<ProblemInstanc
     @Transactional
     @Query("SELECT p FROM ProblemInstance p WHERE p.cost < 0")
     ProblemInstance findUsolvedInstanceProblem();
+
+    @Query("SELECT p FROM ProblemInstance p WHERE p.isSolving = true")
+    ProblemInstance findProblemWhichIsSolvingAtTheMoment();
     
 }
