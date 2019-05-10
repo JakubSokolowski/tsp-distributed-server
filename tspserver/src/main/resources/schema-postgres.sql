@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS workers;
+DROP TABLE IF EXISTS files;
 
 create table users (
     username varchar(50) not null primary key,
@@ -30,6 +31,11 @@ create table workers (
     worker_id SERIAL PRIMARY KEY,
     port INT,
     ip_address VARCHAR(200)
+);
+
+create table files (
+    file_name varchar(50) not null PRIMARY KEY,
+    file_data bytea not null
 );
 
 insert into users(username, password, enabled)values('Janek','Kowalski',true);
