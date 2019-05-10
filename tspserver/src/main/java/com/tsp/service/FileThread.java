@@ -68,7 +68,7 @@ public class FileThread extends Thread {
             //System.out.println(sm);
             ProblemInstance problem = new ProblemInstance(Algorithm.BRUTE_FORCE, sm);
             problemRepository.save(problem);
-            problem = problemRepository.findOne((long) 1);
+            problem = problemRepository.findUsolvedInstanceProblem();
             System.out.println(problem.getGraph().getCost(0,3));
         } catch (IOException e) {
             e.printStackTrace();

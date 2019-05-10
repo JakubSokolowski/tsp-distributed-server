@@ -29,7 +29,8 @@ create table orders (
 
 create table problems (
     problem_id SERIAL PRIMARY KEY,
-    graph oid
+    graph oid,
+    cost INT
 );
 
 create table workers (

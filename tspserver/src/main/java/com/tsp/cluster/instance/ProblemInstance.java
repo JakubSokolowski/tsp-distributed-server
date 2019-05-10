@@ -17,6 +17,7 @@ public class ProblemInstance {
     public ProblemInstance(Algorithm alg, GraphRepresentation graph){
         algorithm = alg;
         this.graph = graph;
+        this.cost = Integer.MIN_VALUE;
     }
 
     public void setAlgorithm(Algorithm algorithm) {
@@ -29,6 +30,22 @@ public class ProblemInstance {
 
     public Algorithm getAlgorithm() { return algorithm; }
     public GraphRepresentation getGraph() {return graph;}
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,4 +82,6 @@ public class ProblemInstance {
     @Lob
     @Column(name="graph", nullable=false, columnDefinition="mediumblob")
     private GraphRepresentation graph;
+
+    private int cost;
 }
