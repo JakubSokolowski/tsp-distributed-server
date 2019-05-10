@@ -3,6 +3,9 @@ package com.tsp.service;
 import com.tsp.cluster.common.Algorithm;
 import com.tsp.cluster.instance.ProblemInstance;
 import com.tsp.graph.SymmetricMatrix;
+import com.tsp.repository.ProblemInstanceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,12 +14,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
+@Component
 public class FileThread extends Thread {
+    @Autowired
+    ProblemInstanceRepository problemRepository;
+
     private String path;
-    public FileThread(String path)
+    public FileThread()
     {
+
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
         this.path = path;
     }
+
     @Override
     public void run() {
         Vector<Vector<Integer>> matrix = new Vector<Vector<Integer>>();
@@ -46,11 +62,14 @@ public class FileThread extends Thread {
                     }
                 }
             }
-            for(int i = 0;i<words.size();i++)matrix.get(i).set(i,Integer.MAX_VALUE);
+            for(int i = 0;i<size;i++)matrix.get(i).set(i,Integer.MAX_VALUE);
             SymmetricMatrix sm = new SymmetricMatrix(matrix);
             Files.deleteIfExists(Paths.get(this.path));
-            System.out.println(sm);
+            //System.out.println(sm);
             ProblemInstance problem = new ProblemInstance(Algorithm.BRUTE_FORCE, sm);
+            problemRepository.save(problem);
+            problem = problemRepository.findOne((long) 1);
+            System.out.println(problem.getGraph().getCost(0,3));
         } catch (IOException e) {
             e.printStackTrace();
         }

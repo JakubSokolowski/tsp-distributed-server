@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS workers;
+DROP TABLE IF EXISTS problems;
 
 create table users (
     username varchar(50) not null primary key,
@@ -24,6 +25,11 @@ create table orders (
     date_of_order DATE,
     username varchar(50) not null,
     foreign key (username) references users (username)
+);
+
+create table problems (
+    problem_id SERIAL PRIMARY KEY,
+    graph oid
 );
 
 create table workers (

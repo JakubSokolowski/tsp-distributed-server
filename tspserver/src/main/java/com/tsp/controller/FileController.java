@@ -27,6 +27,9 @@ import java.util.List;
 public class FileController {
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    FileThread ft;
     
     @RequestMapping(method = RequestMethod.GET)
     public Collection<Order> getAllOrder(){
@@ -60,7 +63,7 @@ public class FileController {
         FileOutputStream fileOutputStream = new FileOutputStream(newFile);
         fileOutputStream.write(file.getBytes());
         fileOutputStream.close();
-        FileThread ft = new FileThread(newFile.getAbsolutePath());
+        ft.setPath(newFile.getAbsolutePath());
         ft.start();
         return new ResponseEntity("Wysyłanie pliku powiodło się!", HttpStatus.OK);
     }
