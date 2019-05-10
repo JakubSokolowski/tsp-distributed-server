@@ -46,6 +46,7 @@ public class FileThread extends Thread {
 
             }
             SymmetricMatrix sm = new SymmetricMatrix(matrix);
+            Files.deleteIfExists(Paths.get(this.path));
             System.out.println(sm);
         } catch (IOException e) {
             e.printStackTrace();
