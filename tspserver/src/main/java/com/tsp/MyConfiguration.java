@@ -48,6 +48,7 @@ public class MyConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/Orders").hasAuthority("USER")
                 .antMatchers("/Login").hasAuthority("USER")
+                .antMatchers("/Files").hasAuthority("USER")
                 .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//We don't need sessions to be created.
     }

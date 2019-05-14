@@ -1,9 +1,11 @@
 package com.tsp.service;
 
+import com.tsp.bean.User;
 import com.tsp.cluster.common.Algorithm;
 import com.tsp.cluster.instance.ProblemInstance;
 import com.tsp.graph.SymmetricMatrix;
 import com.tsp.repository.ProblemInstanceRepository;
+import com.tsp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +21,11 @@ public class FileThread {
     @Autowired
     ProblemInstanceRepository problemRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     private String path;
+    private String username;
     public FileThread()
     {
 
@@ -33,6 +39,13 @@ public class FileThread {
         this.path = path;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public void run() {
         Vector<Vector<Integer>> matrix = new Vector<Vector<Integer>>();
@@ -65,6 +78,8 @@ public class FileThread {
             SymmetricMatrix sm = new SymmetricMatrix(matrix);
             Files.deleteIfExists(Paths.get(this.path));
             ProblemInstance problem = new ProblemInstance(Algorithm.BRUTE_FORCE, sm);
+            User user = userRepository.findOne(username);
+            problem.setUser(user);
             problemRepository.save(problem);
 
         } catch (IOException e) {

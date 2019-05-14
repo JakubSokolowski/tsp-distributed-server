@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS problems;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS workers;
-DROP TABLE IF EXISTS problems;
+
 
 create table users (
     username varchar(50) not null primary key,
@@ -31,7 +32,9 @@ create table problems (
     problem_id SERIAL PRIMARY KEY,
     graph oid,
     cost INT,
-    is_solving boolean
+    is_solving boolean,
+    username_of_user varchar(50) not null,
+    foreign key (username_of_user) references users (username)
 );
 
 create table workers (

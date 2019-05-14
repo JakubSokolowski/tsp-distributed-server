@@ -33,10 +33,12 @@ public class SolvingThread extends Thread {
         super.run();
         while(true)
         {
+            /*
             ProblemInstance p = problemRepository.findUsolvedInstanceProblem();
             if(p != null && p.getCost() < 0 && problemRepository.findProblemWhichIsSolvingAtTheMoment() == null)
             {
                 System.out.println("New Task!");
+
                 p.setSolving(true);
                 problemRepository.save(p);
 
@@ -63,8 +65,14 @@ public class SolvingThread extends Thread {
                 p.setSolving(false);
                 problemRepository.save(p);
 
+
+
             }
+
+             */
         }
+
+
 
     }
 }

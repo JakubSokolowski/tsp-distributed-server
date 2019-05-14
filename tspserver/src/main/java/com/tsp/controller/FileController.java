@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,7 +65,9 @@ public class FileController {
         FileOutputStream fileOutputStream = new FileOutputStream(newFile);
         fileOutputStream.write(file.getBytes());
         fileOutputStream.close();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ft.setPath(newFile.getAbsolutePath());
+        ft.setUsername(auth.getName() + "");
         ft.run();
         return new ResponseEntity("Wysyłanie pliku powiodło się!", HttpStatus.OK);
     }

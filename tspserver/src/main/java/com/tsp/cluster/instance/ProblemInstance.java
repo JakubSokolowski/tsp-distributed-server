@@ -1,5 +1,6 @@
 package com.tsp.cluster.instance;
 
+import com.tsp.bean.User;
 import com.tsp.graph.GraphRepresentation;
 import com.tsp.cluster.common.Algorithm;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -56,19 +57,30 @@ public class ProblemInstance {
         isSolving = solving;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProblemInstance that = (ProblemInstance) o;
         return id == that.id &&
+                cost == that.cost &&
+                isSolving == that.isSolving &&
                 algorithm == that.algorithm &&
-                Objects.equals(graph, that.graph);
+                Objects.equals(graph, that.graph) &&
+                Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, algorithm, graph);
+        return Objects.hash(id, algorithm, graph, cost, isSolving, user);
     }
 
     @Override
@@ -77,6 +89,9 @@ public class ProblemInstance {
                 "id=" + id +
                 ", algorithm=" + algorithm +
                 ", graph=" + graph +
+                ", cost=" + cost +
+                ", isSolving=" + isSolving +
+                ", user=" + user +
                 '}';
     }
 
@@ -96,4 +111,8 @@ public class ProblemInstance {
 
     @Column(name = "is_solving")
     private boolean isSolving;
+
+    @ManyToOne
+    @JoinColumn(name = "username_of_user")
+    private User user;
 }
