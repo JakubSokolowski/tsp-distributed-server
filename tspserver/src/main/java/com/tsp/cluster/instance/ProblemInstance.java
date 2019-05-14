@@ -6,6 +6,7 @@ import com.tsp.cluster.common.Algorithm;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -65,6 +66,14 @@ public class ProblemInstance {
         this.user = user;
     }
 
+    public Date getDateOfOrdering() {
+        return dateOfOrdering;
+    }
+
+    public void setDateOfOrdering(Date dateOfOrdering) {
+        this.dateOfOrdering = dateOfOrdering;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,12 +84,13 @@ public class ProblemInstance {
                 isSolving == that.isSolving &&
                 algorithm == that.algorithm &&
                 Objects.equals(graph, that.graph) &&
+                Objects.equals(dateOfOrdering, that.dateOfOrdering) &&
                 Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, algorithm, graph, cost, isSolving, user);
+        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, isSolving, user);
     }
 
     @Override
@@ -89,6 +99,7 @@ public class ProblemInstance {
                 "id=" + id +
                 ", algorithm=" + algorithm +
                 ", graph=" + graph +
+                ", dateOfOrdering=" + dateOfOrdering +
                 ", cost=" + cost +
                 ", isSolving=" + isSolving +
                 ", user=" + user +
@@ -106,6 +117,9 @@ public class ProblemInstance {
     @Lob
     @Column(name="graph", nullable=false, columnDefinition="mediumblob")
     private GraphRepresentation graph;
+
+    @Column(name = "date_of_ordering")
+    private Date dateOfOrdering;
 
     private int cost;
 

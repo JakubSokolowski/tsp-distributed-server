@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Vector;
 
 @Component
@@ -80,6 +81,7 @@ public class FileThread {
             ProblemInstance problem = new ProblemInstance(Algorithm.BRUTE_FORCE, sm);
             User user = userRepository.findOne(username);
             problem.setUser(user);
+            problem.setDateOfOrdering(new Date());
             problemRepository.save(problem);
 
         } catch (IOException e) {

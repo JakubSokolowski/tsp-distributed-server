@@ -33,6 +33,7 @@ create table problems (
     graph oid,
     cost INT,
     is_solving boolean,
+    date_of_ordering DATE,
     username_of_user varchar(50) not null,
     foreign key (username_of_user) references users (username)
 );
