@@ -1,9 +1,10 @@
 package com.tsp.graph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class SymmetricMatrix extends GraphRepresentation {
+public class SymmetricMatrix extends GraphRepresentation implements Serializable {
     public SymmetricMatrix(Vector<Vector<Integer>> matrix) {
         super(matrix);
     }

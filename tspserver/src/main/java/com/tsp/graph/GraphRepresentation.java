@@ -1,9 +1,10 @@
 package com.tsp.graph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public abstract class GraphRepresentation {
+public abstract class GraphRepresentation implements Serializable {
     public GraphRepresentation(){}
     public GraphRepresentation(Vector<Vector<Integer>> matrix) {
         costMatrix = matrix;
