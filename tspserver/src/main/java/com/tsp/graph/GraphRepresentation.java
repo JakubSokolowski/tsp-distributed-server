@@ -16,6 +16,18 @@ public abstract class GraphRepresentation implements Serializable {
     public abstract int getNumOfCities();
     public abstract int getTourCost(ArrayList<Integer> tour);
 
+    public Vector<Vector<Integer>> getCostMatrix() {
+        return costMatrix;
+    }
+
+    public void setCostMatrix(Vector<Vector<Integer>> costMatrix) {
+        this.costMatrix = costMatrix;
+    }
+
+    public void setNumOfEdges(int numOfEdges) {
+        this.numOfEdges = numOfEdges;
+    }
+
     protected void initMatrix(int matrixSize) {
         costMatrix = new Vector<>(matrixSize);
 

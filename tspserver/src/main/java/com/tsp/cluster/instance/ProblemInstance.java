@@ -1,5 +1,6 @@
 package com.tsp.cluster.instance;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tsp.bean.User;
 import com.tsp.graph.GraphRepresentation;
 import com.tsp.cluster.common.Algorithm;
@@ -129,7 +130,9 @@ public class ProblemInstance {
     @Column(name="graph", nullable=false, columnDefinition="mediumblob")
     private GraphRepresentation graph;
 
+
     @Column(name = "date_of_ordering")
+    @JsonFormat(pattern="dd.MM.yyyy")
     private Date dateOfOrdering;
 
     private int cost;
