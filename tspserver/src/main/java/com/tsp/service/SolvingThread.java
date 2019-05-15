@@ -56,10 +56,15 @@ public class SolvingThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-                System.out.println("Końcowy wynik: " + context.getBestSolution());
+
                 p.setCost(context.getBestSolution().getCost());
+                p.setTour(context.getBestSolution().getTour());
                 p.setSolving(false);
                 problemRepository.save(p);
+
+                //p = problemRepository.findOne(p.getId());
+
+                System.out.println("Końcowy wynik: " + p);
 
                 //Tutaj zapisz jakoś wynik albo w innym odpowiednim miejscu
                 System.out.println("Starting Server");

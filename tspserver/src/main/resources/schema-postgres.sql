@@ -31,6 +31,7 @@ create table orders (
 create table problems (
     problem_id SERIAL PRIMARY KEY,
     graph oid,
+    tour oid,
     cost INT,
     is_solving boolean,
     date_of_ordering DATE,
