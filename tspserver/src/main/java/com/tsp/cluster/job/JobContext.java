@@ -36,5 +36,6 @@ public class JobContext {
             bestSolution = solution;
             System.out.println("Found new best solution!");
         }
+
     }
 }

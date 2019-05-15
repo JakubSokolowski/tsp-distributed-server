@@ -41,7 +41,9 @@ public class BruteForceJobHandler extends JobHandler {
             while((str = br.readLine()) != null) {
                 System.out.println("Server received " + str);
                 Solution sol = gson.fromJson(str, Solution.class);
+
                 jobContext.updateSolution(sol);
+
                 if(!jobContext.areAnyTasksAvailable()) {
                     sendStopMessage();
                     System.out.println(gson.toJson(jobContext.getBestSolution()));

@@ -33,7 +33,7 @@ public class SolvingThread extends Thread {
         super.run();
         while(true)
         {
-            /*
+            
             ProblemInstance p = problemRepository.findUsolvedInstanceProblem();
             if(p != null && p.getCost() < 0 && problemRepository.findProblemWhichIsSolvingAtTheMoment() == null)
             {
@@ -56,20 +56,16 @@ public class SolvingThread extends Thread {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(context.getBestSolution().toString());
-                //Tutaj zapisz jakoś wynik albo w innym odpowiednim miejscu
-                System.out.println("Starting Server");
-
-
-                p.setCost(300);
+                System.out.println("Końcowy wynik: " + context.getBestSolution());
+                p.setCost(context.getBestSolution().getCost());
                 p.setSolving(false);
                 problemRepository.save(p);
 
-
-
+                //Tutaj zapisz jakoś wynik albo w innym odpowiednim miejscu
+                System.out.println("Starting Server");
             }
 
-             */
+
         }
 
 
