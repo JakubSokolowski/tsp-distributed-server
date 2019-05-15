@@ -5,9 +5,8 @@
  */
 package com.tsp.service;
 
-import com.tsp.bean.Order;
 import com.tsp.cluster.instance.ProblemInstance;
-import com.tsp.repository.OrderRepository;
+
 import java.util.List;
 
 import com.tsp.repository.ProblemInstanceRepository;

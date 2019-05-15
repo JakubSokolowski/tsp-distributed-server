@@ -1,6 +1,5 @@
 package com.tsp.controller;
 
-import com.tsp.bean.Order;
 import com.tsp.service.FileThread;
 import com.tsp.service.ProblemInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.List;
 
 
 @RestController

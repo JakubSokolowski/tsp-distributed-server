@@ -18,21 +18,12 @@ create table authorities (
     foreign key (username) references users (username)
 );
 
-create table orders (
-    order_id SERIAL PRIMARY KEY,
-    cost INT,
-    tour VARCHAR(200),
-    matrix VARCHAR(200),
-    date_of_order DATE,
-    username varchar(50) not null,
-    foreign key (username) references users (username)
-);
-
 create table problems (
     problem_id SERIAL PRIMARY KEY,
     graph oid,
     tour oid,
     cost INT,
+    percentage_of_progress INT,
     is_solving boolean,
     date_of_ordering DATE,
     username_of_user varchar(50) not null,
@@ -57,4 +48,3 @@ insert into authorities(username,authority)values('Piotrek','USER');
 insert into authorities(username,authority)values('Michal','USER');
 insert into authorities(username,authority)values('Magdalena','USER');
 
-insert into orders (order_id,cost,tour,matrix,date_of_order,username)values(1,100,'01230','0234103412041230','2019-04-04','Janek');

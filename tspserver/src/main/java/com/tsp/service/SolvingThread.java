@@ -55,8 +55,13 @@ public class SolvingThread extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    p.setPercentageOfProgress(context.getPercentageOfProgress());
+                    p.setCost(context.getBestSolution().getCost());
+                    p.setTour(context.getBestSolution().getTour());
+                    problemRepository.save(p);
                 }
 
+                p.setPercentageOfProgress(context.getPercentageOfProgress());
                 p.setCost(context.getBestSolution().getCost());
                 p.setTour(context.getBestSolution().getTour());
                 p.setSolving(false);

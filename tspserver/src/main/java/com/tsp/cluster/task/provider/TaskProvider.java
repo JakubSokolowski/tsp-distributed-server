@@ -9,4 +9,7 @@ public interface TaskProvider {
     int getNumOfAvailableTasks();
     void addTask(TaskContext task);
     GraphRepresentation getProblemData();
+    int getMaxNumberOfTask();
+    void setMaxNumberOfTask(int maxNumberOfTask);
+    int getPercentageOfProgress();
 }

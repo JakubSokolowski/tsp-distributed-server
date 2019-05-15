@@ -84,6 +84,14 @@ public class ProblemInstance {
         this.tour = tour;
     }
 
+    public int getPercentageOfProgress() {
+        return percentageOfProgress;
+    }
+
+    public void setPercentageOfProgress(int percentageOfProgress) {
+        this.percentageOfProgress = percentageOfProgress;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,6 +99,7 @@ public class ProblemInstance {
         ProblemInstance that = (ProblemInstance) o;
         return id == that.id &&
                 cost == that.cost &&
+                percentageOfProgress == that.percentageOfProgress &&
                 isSolving == that.isSolving &&
                 algorithm == that.algorithm &&
                 Objects.equals(graph, that.graph) &&
@@ -101,7 +110,7 @@ public class ProblemInstance {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, tour, isSolving, user);
+        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, percentageOfProgress, tour, isSolving, user);
     }
 
     @Override
@@ -112,6 +121,7 @@ public class ProblemInstance {
                 ", graph=" + graph +
                 ", dateOfOrdering=" + dateOfOrdering +
                 ", cost=" + cost +
+                ", percentageOfProgress=" + percentageOfProgress +
                 ", tour=" + tour +
                 ", isSolving=" + isSolving +
                 ", user=" + user +
@@ -136,6 +146,9 @@ public class ProblemInstance {
     private Date dateOfOrdering;
 
     private int cost;
+
+    @Column(name = "percentage_of_progress")
+    private int percentageOfProgress;
 
     @Lob
     @Column(name="tour", columnDefinition="mediumblob")
