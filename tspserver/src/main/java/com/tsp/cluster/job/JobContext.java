@@ -31,10 +31,13 @@ public class JobContext {
 
     public GraphRepresentation getProblemData() {return taskProvider.getProblemData();}
 
+    public int getPercentageOfProgress() {return taskProvider.getPercentageOfProgress();}
+
     public synchronized void updateSolution(Solution solution) {
         if(bestSolution.compareTo(solution) < 0) {
             bestSolution = solution;
             System.out.println("Found new best solution!");
         }
+
     }
 }

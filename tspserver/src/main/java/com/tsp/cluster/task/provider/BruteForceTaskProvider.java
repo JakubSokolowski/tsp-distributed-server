@@ -39,6 +39,21 @@ public class BruteForceTaskProvider implements TaskProvider {
         return graph;
     }
 
+    @Override
+    public synchronized int getMaxNumberOfTask() {
+        return maxNumberOfTask;
+    }
+
+    @Override
+    public synchronized void setMaxNumberOfTask(int maxNumberOfTask) {
+        this.maxNumberOfTask = maxNumberOfTask;
+    }
+
+    @Override
+    public synchronized int getPercentageOfProgress() {
+        return (int)( (double)(maxNumberOfTask - taskQueue.size()) / (double)(maxNumberOfTask)*100);
+    }
+
     /**
      * Initializes task queue with all possible permutations of 2 cities
      */
@@ -51,9 +66,11 @@ public class BruteForceTaskProvider implements TaskProvider {
                 taskQueue.add(new BruteForceTaskContext(lockedCities));
             }
         }
-
+        maxNumberOfTask = taskQueue.size();
     }
 
     private GraphRepresentation graph;
     private ConcurrentLinkedQueue<TaskContext> taskQueue;
+    private int maxNumberOfTask;
+    private int actualNumberOfTask;
 }

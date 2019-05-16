@@ -13,6 +13,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public interface ProblemInstanceRepository extends CrudRepository<ProblemInstance, Long> {
 
@@ -20,7 +23,12 @@ public interface ProblemInstanceRepository extends CrudRepository<ProblemInstanc
     @Query("SELECT p FROM ProblemInstance p WHERE p.cost < 0")
     ProblemInstance findUsolvedInstanceProblem();
 
+    @Transactional
     @Query("SELECT p FROM ProblemInstance p WHERE p.isSolving = true")
     ProblemInstance findProblemWhichIsSolvingAtTheMoment();
+
+    @Transactional
+    @Query("SELECT p FROM ProblemInstance p WHERE p.user.username = :#{#username }")
+    ArrayList<ProblemInstance> findAllForUser(@Param("username")String username);
     
 }

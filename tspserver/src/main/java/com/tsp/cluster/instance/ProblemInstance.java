@@ -1,11 +1,13 @@
 package com.tsp.cluster.instance;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tsp.bean.User;
 import com.tsp.graph.GraphRepresentation;
 import com.tsp.cluster.common.Algorithm;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -74,6 +76,22 @@ public class ProblemInstance {
         this.dateOfOrdering = dateOfOrdering;
     }
 
+    public ArrayList<Integer> getTour() {
+        return tour;
+    }
+
+    public void setTour(ArrayList<Integer> tour) {
+        this.tour = tour;
+    }
+
+    public int getPercentageOfProgress() {
+        return percentageOfProgress;
+    }
+
+    public void setPercentageOfProgress(int percentageOfProgress) {
+        this.percentageOfProgress = percentageOfProgress;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,16 +99,18 @@ public class ProblemInstance {
         ProblemInstance that = (ProblemInstance) o;
         return id == that.id &&
                 cost == that.cost &&
+                percentageOfProgress == that.percentageOfProgress &&
                 isSolving == that.isSolving &&
                 algorithm == that.algorithm &&
                 Objects.equals(graph, that.graph) &&
                 Objects.equals(dateOfOrdering, that.dateOfOrdering) &&
+                Objects.equals(tour, that.tour) &&
                 Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, isSolving, user);
+        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, percentageOfProgress, tour, isSolving, user);
     }
 
     @Override
@@ -101,6 +121,8 @@ public class ProblemInstance {
                 ", graph=" + graph +
                 ", dateOfOrdering=" + dateOfOrdering +
                 ", cost=" + cost +
+                ", percentageOfProgress=" + percentageOfProgress +
+                ", tour=" + tour +
                 ", isSolving=" + isSolving +
                 ", user=" + user +
                 '}';
@@ -118,10 +140,19 @@ public class ProblemInstance {
     @Column(name="graph", nullable=false, columnDefinition="mediumblob")
     private GraphRepresentation graph;
 
+
     @Column(name = "date_of_ordering")
+    @JsonFormat(pattern="dd.MM.yyyy")
     private Date dateOfOrdering;
 
     private int cost;
+
+    @Column(name = "percentage_of_progress")
+    private int percentageOfProgress;
+
+    @Lob
+    @Column(name="tour", columnDefinition="mediumblob")
+    private ArrayList<Integer> tour;
 
     @Column(name = "is_solving")
     private boolean isSolving;

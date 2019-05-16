@@ -46,4 +46,12 @@ public class SymmetricMatrix extends GraphRepresentation implements Serializable
         }
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "SymmetricMatrix{" +
+                "costMatrix=" + costMatrix +
+                ", numOfEdges=" + numOfEdges +
+                '}';
+    }
 }
