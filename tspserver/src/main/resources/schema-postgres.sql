@@ -41,7 +41,9 @@ insert into users(username, password, enabled)values('Barbara','Witek',true);
 insert into users(username, password, enabled)values('Piotrek','Nowak',true);
 insert into users(username, password, enabled)values('Michal','Wygoda',true);
 insert into users(username, password, enabled)values('Magdalena','Zalewska',true);
+insert into users(username, password, enabled)values('admin','admin',true);
 
+insert into authorities(username,authority)values('admin','ADMIN');
 insert into authorities(username,authority)values('Janek','USER');
 insert into authorities(username,authority)values('Barbara','USER');
 insert into authorities(username,authority)values('Piotrek','USER');
