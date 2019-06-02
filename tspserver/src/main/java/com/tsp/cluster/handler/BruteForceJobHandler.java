@@ -2,66 +2,68 @@ package com.tsp.cluster.handler;
 
 import com.google.gson.Gson;
 import com.tsp.cluster.common.Solution;
-import com.tsp.cluster.job.JobContext;
+import com.tsp.cluster.job.JobQueue;
 import com.tsp.cluster.task.context.BruteForceTaskContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 public class BruteForceJobHandler extends JobHandler {
-    public BruteForceJobHandler(Socket clientSocket, JobContext jobContext) {
-        super(clientSocket, jobContext);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BruteForceJobHandler.class.getName());
+    private final CyclicBarrier cyclicBarrier;
+    private Gson gson = new Gson();
+
+    public BruteForceJobHandler(Socket clientSocket, CyclicBarrier barrier) {
+        super(clientSocket);
+        cyclicBarrier = barrier;
     }
 
-    private Gson gson = new Gson();
     @Override
     public void run() {
         try {
-            InputStream input  = clientSocket.getInputStream();
-            OutputStream output = clientSocket.getOutputStream();
-            String str;
+            waitForReadyConfirmation();
+            sendCurrentJobContext();
+            sendNextTask();
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(input));
-            PrintWriter pw = new PrintWriter(output, true);
+            String message;
+            while ((message = br.readLine()) != null) {
+                Solution sol = gson.fromJson(message, Solution.class);
+                JobQueue.receiveTaskSolution(sol);
+                JobQueue.updateCurrentJobProgress();
+                JobQueue.saveCurrentJobState();
 
-            int counter = 0;
-            while(!(str = br.readLine()).equals("READY")){
-                continue;
-            }
-            sendContext();
-            if(!(str = br.readLine()).equals("RECEIVED_CONTEXT"))
-                throw new IOException("Error while sending context");
-
-            BruteForceTaskContext task = (BruteForceTaskContext) jobContext.getNextAvailableTask();
-            str = gson.toJson(task);
-            counter++;
-            System.out.println(str);
-            pw.println(str);
-
-            while((str = br.readLine()) != null) {
-                System.out.println("Server received " + str);
-                Solution sol = gson.fromJson(str, Solution.class);
-
-                jobContext.updateSolution(sol);
-
-                if(!jobContext.areAnyTasksAvailable()) {
-                    sendStopMessage();
-                    System.out.println(gson.toJson(jobContext.getBestSolution()));
-                    break;
+                if (!JobQueue.shouldContinueExecution()) {
+                    try {
+                        // Wait for all workers to finish their tasks in this job
+                        // After all workers are finished, await() executes callback that marks current job as finished
+                        // saves it's state to database, and sets viable job as currentJob.
+                        // If there are no viable jobs, this callback blocks all of the worker threads
+                        LOGGER.info("Worker {}:{} finished execution", clientSocket.getInetAddress(), clientSocket.getPort());
+                        cyclicBarrier.await();
+                        sendCurrentJobContext();
+                    } catch (InterruptedException | BrokenBarrierException e) {
+                        LOGGER.info("Error waiting for workers to finish job execution due to: ", e.getMessage());
+                        e.printStackTrace();
+                    }
                 }
-                task = (BruteForceTaskContext) jobContext.getNextAvailableTask();
-                str = gson.toJson(task);
-                counter++;
-                System.out.println(str);
-                pw.println(str);
-                System.out.println("Server send message...");
-                long time = System.currentTimeMillis();
-                System.out.println("Request processed: " + time);
+                sendNextTask();
             }
-            System.out.println("Finished communication");
+            LOGGER.info("Finished communication");
 
-        } catch (IOException  e) {
+        } catch (IOException e) {
+            LOGGER.info("Error in BruteForceJobHandler due to: {}", e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void sendNextTask() {
+        BruteForceTaskContext task = (BruteForceTaskContext) JobQueue.getCurrentJob().getNextAvailableTask();
+        String str = gson.toJson(task);
+        pw.println(str);
+        LOGGER.info("Sending task: {}", str);
     }
 }

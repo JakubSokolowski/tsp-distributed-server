@@ -20,23 +20,19 @@ public class ProblemInstanceService {
     private ProblemInstanceRepository repository;
 
     public List<ProblemInstance> findAll() {
-
-        List<ProblemInstance> problems = (List<ProblemInstance>) repository.findAll();
-        return problems;
+        return (List<ProblemInstance>) repository.findAll();
     }
 
     public List<ProblemInstance> findAll(String username) {
-
-        List<ProblemInstance> problems = (List<ProblemInstance>) repository.findAllForUser(username);
-        return problems;
+        return repository.findAllForUser(username);
     }
 
     public ProblemInstance findOne(long id) {
 
         return repository.findOne(id);
     }
-    public void deleteOne(long id) {
 
+    public void deleteOne(long id) {
         repository.delete(id);
     }
 }
