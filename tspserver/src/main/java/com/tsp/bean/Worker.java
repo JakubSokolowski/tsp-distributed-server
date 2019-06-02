@@ -1,19 +1,54 @@
 package com.tsp.bean;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Entity()
 @Table(name = "workers")
 public class Worker {
+    private static final Logger LOGGER = Logger.getLogger(Worker.class.getName());
+    private static int workerCount = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_worker")
     private long idWorker;
+    private int port;
     @Column(name = "ip_address")
     private String ipAddress;
 
-    private int port;
+    @Transient
+    private Socket connectionSocket;
+
+    public Worker(Socket socket) {
+        workerCount++;
+        connectionSocket = socket;
+        this.idWorker = workerCount;
+        this.ipAddress = socket.getInetAddress().getHostAddress();
+        this.port = socket.getPort();
+    }
+
+    public void sendStopMessage() {
+        try {
+            OutputStream output = connectionSocket.getOutputStream();
+            PrintWriter pw = new PrintWriter(output, true);
+            pw.println("STOP");
+            LOGGER.log(Level.FINE, "server sent stop message to worker {0}", idWorker);
+
+        } catch (IOException ex) {
+            LOGGER.log(
+                    Level.SEVERE,
+                    "failed to send stop message for worker {0} due to exception {1}",
+                    new Object[]{idWorker, ex.getMessage()}
+            );
+        }
+    }
 
     public long getIdWorker() {
         return idWorker;
@@ -27,16 +62,12 @@ public class Worker {
         return ipAddress;
     }
 
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
     public int getPort() {
         return port;
     }
 
-    public void setPort(int port) {
-        this.port = port;
+    public Socket getSocket() {
+        return connectionSocket;
     }
 
     @Override

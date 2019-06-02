@@ -1,5 +1,6 @@
 package com.tsp.cluster.task.provider;
 
+import com.tsp.cluster.instance.ProblemInstance;
 import com.tsp.cluster.task.context.BruteForceTaskContext;
 import com.tsp.cluster.task.context.TaskContext;
 import com.tsp.graph.GraphRepresentation;
@@ -11,6 +12,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class BruteForceTaskProvider implements TaskProvider {
     public BruteForceTaskProvider(GraphRepresentation graph) {
         this.graph = graph;
+        taskQueue = new ConcurrentLinkedQueue<>();
+        initTasks();
+    }
+
+    public BruteForceTaskProvider(ProblemInstance instance) {
+        this.problemInstance = instance;
+        this.graph = problemInstance.getGraph();
         taskQueue = new ConcurrentLinkedQueue<>();
         initTasks();
     }
@@ -70,6 +78,7 @@ public class BruteForceTaskProvider implements TaskProvider {
     }
 
     private GraphRepresentation graph;
+    private ProblemInstance problemInstance;
     private ConcurrentLinkedQueue<TaskContext> taskQueue;
     private int maxNumberOfTask;
     private int actualNumberOfTask;
