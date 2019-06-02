@@ -2,9 +2,8 @@ package com.tsp.cluster.instance;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tsp.bean.User;
-import com.tsp.graph.GraphRepresentation;
 import com.tsp.cluster.common.Algorithm;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import com.tsp.graph.GraphRepresentation;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,27 +13,56 @@ import java.util.Objects;
 @Entity
 @Table(name = "problems")
 public class ProblemInstance {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "problem_id")
+    private long id;
+    @Transient
+    private Algorithm algorithm;
+    @Lob
+    @Column(name = "graph", nullable = false, columnDefinition = "mediumblob")
+    private GraphRepresentation graph;
+    @Column(name = "date_of_ordering")
+    @JsonFormat(pattern = "dd.MM.yyyy")
+    private Date dateOfOrdering;
+    private int cost;
+    @Column(name = "percentage_of_progress")
+    private int percentageOfProgress;
+    @Lob
+    @Column(name = "tour", columnDefinition = "mediumblob")
+    private ArrayList<Integer> tour;
+    @Column(name = "is_solving")
+    private boolean isSolving;
+    @ManyToOne
+    @JoinColumn(name = "username_of_user")
+    private User user;
+
     public ProblemInstance() {
         algorithm = Algorithm.BRUTE_FORCE;
     }
 
-    public ProblemInstance(Algorithm alg, GraphRepresentation graph){
+    public ProblemInstance(Algorithm alg, GraphRepresentation graph) {
         algorithm = alg;
         this.graph = graph;
         this.cost = Integer.MIN_VALUE;
         isSolving = false;
     }
 
+    public Algorithm getAlgorithm() {
+        return algorithm;
+    }
+
     public void setAlgorithm(Algorithm algorithm) {
         this.algorithm = algorithm;
+    }
+
+    public GraphRepresentation getGraph() {
+        return graph;
     }
 
     public void setGraph(GraphRepresentation graph) {
         this.graph = graph;
     }
-
-    public Algorithm getAlgorithm() { return algorithm; }
-    public GraphRepresentation getGraph() {return graph;}
 
     public long getId() {
         return id;
@@ -127,37 +155,4 @@ public class ProblemInstance {
                 ", user=" + user +
                 '}';
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "problem_id")
-    private long id;
-
-    @Transient
-    private Algorithm algorithm;
-
-    @Lob
-    @Column(name="graph", nullable=false, columnDefinition="mediumblob")
-    private GraphRepresentation graph;
-
-
-    @Column(name = "date_of_ordering")
-    @JsonFormat(pattern="dd.MM.yyyy")
-    private Date dateOfOrdering;
-
-    private int cost;
-
-    @Column(name = "percentage_of_progress")
-    private int percentageOfProgress;
-
-    @Lob
-    @Column(name="tour", columnDefinition="mediumblob")
-    private ArrayList<Integer> tour;
-
-    @Column(name = "is_solving")
-    private boolean isSolving;
-
-    @ManyToOne
-    @JoinColumn(name = "username_of_user")
-    private User user;
 }
