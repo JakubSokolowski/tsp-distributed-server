@@ -67,8 +67,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/Login",method = RequestMethod.GET)
-    public boolean loginUser(){
-        return true;
+    public String loginUser(){
+        org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        String s = userService.findAutorityByUsername(username);
+        return s;
+
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
