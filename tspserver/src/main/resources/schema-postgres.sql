@@ -23,6 +23,7 @@ create table problems (
     graph oid,
     tour oid,
     cost INT,
+    time_of_running_in_seconds INT,
     percentage_of_progress INT,
     is_solving boolean,
     date_of_ordering DATE,

@@ -37,6 +37,9 @@ public class ProblemInstance {
     @JoinColumn(name = "username_of_user")
     private User user;
 
+    @Column(name = "time_of_running_in_seconds")
+    private int timeOfRunningInSeconds;
+
     public ProblemInstance() {
         algorithm = Algorithm.BRUTE_FORCE;
     }
@@ -120,6 +123,14 @@ public class ProblemInstance {
         this.percentageOfProgress = percentageOfProgress;
     }
 
+    public int getTimeOfRunningInSecconds() {
+        return timeOfRunningInSeconds;
+    }
+
+    public void setTimeOfRunningInSecconds(int timeOfRunningInSeconds) {
+        this.timeOfRunningInSeconds = timeOfRunningInSeconds;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -129,6 +140,7 @@ public class ProblemInstance {
                 cost == that.cost &&
                 percentageOfProgress == that.percentageOfProgress &&
                 isSolving == that.isSolving &&
+                timeOfRunningInSeconds == that.timeOfRunningInSeconds &&
                 algorithm == that.algorithm &&
                 Objects.equals(graph, that.graph) &&
                 Objects.equals(dateOfOrdering, that.dateOfOrdering) &&
@@ -138,7 +150,7 @@ public class ProblemInstance {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, percentageOfProgress, tour, isSolving, user);
+        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, percentageOfProgress, tour, isSolving, user, timeOfRunningInSeconds);
     }
 
     @Override
@@ -153,6 +165,7 @@ public class ProblemInstance {
                 ", tour=" + tour +
                 ", isSolving=" + isSolving +
                 ", user=" + user +
+                ", timeOfRunningInSecconds=" + timeOfRunningInSeconds +
                 '}';
     }
 }
