@@ -48,7 +48,11 @@ public class MyConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/Orders").hasAuthority("USER")
                 .antMatchers("/Orders/All").hasAuthority("ADMIN")
-                .antMatchers("/Queue").hasAuthority("ADMIN")
+                .antMatchers("/Queue/Up").hasAuthority("ADMIN")
+                .antMatchers("/Queue/Down").hasAuthority("ADMIN")
+                .antMatchers("/Queue/Start").hasAuthority("ADMIN")
+                .antMatchers("/Queue/Stop").hasAuthority("ADMIN")
+
                 .antMatchers("/Login").hasAnyAuthority("USER","ADMIN")
                 .antMatchers("/Files").hasAuthority("USER")
                 .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())

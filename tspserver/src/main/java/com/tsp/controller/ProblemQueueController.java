@@ -1,5 +1,7 @@
 package com.tsp.controller;
 
+import com.tsp.bean.ProblemInstanceId;
+import com.tsp.bean.User;
 import com.tsp.cluster.instance.ProblemInstance;
 import com.tsp.service.ProblemInstanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,27 +16,27 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/Queue")
+@RequestMapping(value = "/Queue")
 public class ProblemQueueController {
 
-    @RequestMapping(value = "/Up",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity upProblem(@RequestBody Integer id){
+    @RequestMapping(path = "/Up",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity upProblem(@RequestBody ProblemInstanceId id){
         //tutaj przesunięcie do przodu w kolejce
         return new ResponseEntity(HttpStatus.OK);
     }
-    @RequestMapping(value = "/Down",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity downProblem(@RequestBody Integer id){
+    @RequestMapping(path = "/Down",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity downProblem(@RequestBody ProblemInstanceId id){
         //tutaj przesunięcie do tyłu w kolejce
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/Stop",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity stopProblem(@RequestBody Integer id){
+    @RequestMapping(path = "/Stop",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity stopProblem(@RequestBody ProblemInstanceId id){
         //tutaj start rozwiązywania problemu
         return new ResponseEntity(HttpStatus.OK);
     }
-    @RequestMapping(value = "/Start",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity startProblem(@RequestBody Integer id){
+    @RequestMapping(path = "/Start",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity startProblem(@RequestBody ProblemInstanceId id){
         //tutaj stop rozwiązywania problemu
         return new ResponseEntity(HttpStatus.OK);
     }
