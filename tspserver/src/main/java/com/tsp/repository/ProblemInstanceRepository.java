@@ -35,5 +35,9 @@ public interface ProblemInstanceRepository extends CrudRepository<ProblemInstanc
     @Transactional
     @Query("SELECT p FROM ProblemInstance p WHERE p.indexInQueue = :#{#index }")
     ProblemInstance findByIndexInQueue(@Param("index")int index);
+
+    @Transactional
+    @Query("SELECT p FROM ProblemInstance p WHERE p.indexInQueue > :#{#index }")
+    ArrayList<ProblemInstance> findWithGraterIndexInQueue(@Param("index")int index);
     
 }
