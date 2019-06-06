@@ -29,7 +29,7 @@ public class ProblemQueueController {
     }
     @RequestMapping(path = "/Down",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity downProblem(@RequestBody ProblemInstanceId id){
-        //tutaj przesunięcie do tyłu w kolejce
+        problemService.downProblem(id.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
 

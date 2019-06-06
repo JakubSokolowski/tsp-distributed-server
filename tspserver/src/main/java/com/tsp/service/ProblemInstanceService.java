@@ -47,9 +47,24 @@ public class ProblemInstanceService {
             p.setIndexInQueue(p.getIndexInQueue() - 1);
             repository.save(p);
             repository.save(other);
-            
+
 
         }
+    }
+
+    @Transactional
+    public void downProblem(long id) {
+        ProblemInstance p = repository.findOne(id);
+        int index = p.getIndexInQueue();
+        ProblemInstance other = repository.findByIndexInQueue(index + 1);
+            if(other != null) {
+                other.setIndexInQueue(other.getIndexInQueue() - 1);
+                p.setIndexInQueue(p.getIndexInQueue() + 1);
+                repository.save(p);
+                repository.save(other);
+            }
+
+
     }
 
 
