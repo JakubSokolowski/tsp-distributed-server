@@ -19,9 +19,12 @@ import java.util.List;
 @RequestMapping(value = "/Queue")
 public class ProblemQueueController {
 
+    @Autowired
+    ProblemInstanceService problemService;
+
     @RequestMapping(path = "/Up",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity upProblem(@RequestBody ProblemInstanceId id){
-        //tutaj przesunięcie do przodu w kolejce
+        problemService.upProblem(id.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
     @RequestMapping(path = "/Down",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)

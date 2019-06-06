@@ -31,5 +31,9 @@ public interface ProblemInstanceRepository extends CrudRepository<ProblemInstanc
     @Transactional
     @Query("SELECT max(p.indexInQueue) FROM ProblemInstance p")
     Integer findMaxIndex();
+
+    @Transactional
+    @Query("SELECT p FROM ProblemInstance p WHERE p.indexInQueue = :#{#index }")
+    ProblemInstance findByIndexInQueue(@Param("index")int index);
     
 }
