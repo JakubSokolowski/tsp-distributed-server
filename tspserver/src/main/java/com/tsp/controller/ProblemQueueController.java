@@ -35,12 +35,12 @@ public class ProblemQueueController {
 
     @RequestMapping(path = "/Stop",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity stopProblem(@RequestBody ProblemInstanceId id){
-        //tutaj start rozwiązywania problemu
+        problemService.stopProblem(id.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
     @RequestMapping(path = "/Start",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity startProblem(@RequestBody ProblemInstanceId id){
-        //tutaj stop rozwiązywania problemu
+        problemService.startProblem(id.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
     @RequestMapping(path = "/Delete",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
