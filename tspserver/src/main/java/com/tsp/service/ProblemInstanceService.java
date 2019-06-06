@@ -51,6 +51,7 @@ public class ProblemInstanceService {
         if(index > 1) {
             ProblemInstance other = repository.findByIndexInQueue(index - 1);
             if(other == null)return;
+            if(other.isSolving())return;
             other.setIndexInQueue(other.getIndexInQueue() + 1);
             p.setIndexInQueue(p.getIndexInQueue() - 1);
             repository.save(p);
@@ -62,7 +63,9 @@ public class ProblemInstanceService {
 
     @Transactional
     public void downProblem(long id) {
+
         ProblemInstance p = repository.findOne(id);
+        if(p.isSolving())return;
         int index = p.getIndexInQueue();
         ProblemInstance other = repository.findByIndexInQueue(index + 1);
             if(other != null) {
@@ -71,6 +74,38 @@ public class ProblemInstanceService {
                 repository.save(p);
                 repository.save(other);
             }
+
+
+    }
+
+    @Transactional
+    public void startProblem(long id) {
+        ProblemInstance p = repository.findOne(id);
+        if(p!=null)
+        {
+            ProblemInstance other = repository.findByIndexInQueue(1);
+            if(p.getId() != other.getId())
+            {
+                other.setIndexInQueue(p.getIndexInQueue());
+                other.setSolving(false);
+                p.setIndexInQueue(1);
+                repository.save(other);
+            }
+            p.setSolving(true);
+            repository.save(p);
+        }
+
+
+    }
+
+    @Transactional
+    public void stopProblem(long id) {
+        ProblemInstance p = repository.findOne(id);
+        if(p!=null)
+        {
+            p.setSolving(false);
+            repository.save(p);
+        }
 
 
     }
