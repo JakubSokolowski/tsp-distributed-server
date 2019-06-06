@@ -32,7 +32,15 @@ public class ProblemInstanceService {
         return repository.findOne(id);
     }
 
+    @Transactional
     public void deleteOne(long id) {
+        ProblemInstance deletingProblem = repository.findOne(id);
+        List<ProblemInstance> list = repository.findWithGraterIndexInQueue(deletingProblem.getIndexInQueue());
+        for(ProblemInstance p : list)
+        {
+            p.setIndexInQueue(p.getIndexInQueue()-1);
+            repository.save(p);
+        }
         repository.delete(id);
     }
 
@@ -42,7 +50,7 @@ public class ProblemInstanceService {
         int index = p.getIndexInQueue();
         if(index > 1) {
             ProblemInstance other = repository.findByIndexInQueue(index - 1);
-
+            if(other == null)return;
             other.setIndexInQueue(other.getIndexInQueue() + 1);
             p.setIndexInQueue(p.getIndexInQueue() - 1);
             repository.save(p);
