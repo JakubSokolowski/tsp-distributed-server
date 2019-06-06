@@ -43,6 +43,11 @@ public class ProblemQueueController {
         //tutaj stop rozwiązywania problemu
         return new ResponseEntity(HttpStatus.OK);
     }
+    @RequestMapping(path = "/Delete",method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteProblem(@RequestBody ProblemInstanceId id){
+        problemService.deleteOne(id.getId());
+        return new ResponseEntity(HttpStatus.OK);
+    }
     
 
     
