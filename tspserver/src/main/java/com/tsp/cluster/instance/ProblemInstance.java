@@ -40,6 +40,9 @@ public class ProblemInstance {
     @Column(name = "time_of_running_in_seconds")
     private int timeOfRunningInSeconds;
 
+    @Column(name = "index_in_queue")
+    private int indexInQueue;
+
     public ProblemInstance() {
         algorithm = Algorithm.BRUTE_FORCE;
     }
@@ -131,6 +134,22 @@ public class ProblemInstance {
         this.timeOfRunningInSeconds = timeOfRunningInSeconds;
     }
 
+    public int getTimeOfRunningInSeconds() {
+        return timeOfRunningInSeconds;
+    }
+
+    public void setTimeOfRunningInSeconds(int timeOfRunningInSeconds) {
+        this.timeOfRunningInSeconds = timeOfRunningInSeconds;
+    }
+
+    public int getIndexInQueue() {
+        return indexInQueue;
+    }
+
+    public void setIndexInQueue(int indexInQueue) {
+        this.indexInQueue = indexInQueue;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -141,6 +160,7 @@ public class ProblemInstance {
                 percentageOfProgress == that.percentageOfProgress &&
                 isSolving == that.isSolving &&
                 timeOfRunningInSeconds == that.timeOfRunningInSeconds &&
+                indexInQueue == that.indexInQueue &&
                 algorithm == that.algorithm &&
                 Objects.equals(graph, that.graph) &&
                 Objects.equals(dateOfOrdering, that.dateOfOrdering) &&
@@ -150,7 +170,7 @@ public class ProblemInstance {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, percentageOfProgress, tour, isSolving, user, timeOfRunningInSeconds);
+        return Objects.hash(id, algorithm, graph, dateOfOrdering, cost, percentageOfProgress, tour, isSolving, user, timeOfRunningInSeconds, indexInQueue);
     }
 
     @Override
@@ -165,7 +185,8 @@ public class ProblemInstance {
                 ", tour=" + tour +
                 ", isSolving=" + isSolving +
                 ", user=" + user +
-                ", timeOfRunningInSecconds=" + timeOfRunningInSeconds +
+                ", timeOfRunningInSeconds=" + timeOfRunningInSeconds +
+                ", indexInQueue=" + indexInQueue +
                 '}';
     }
 }

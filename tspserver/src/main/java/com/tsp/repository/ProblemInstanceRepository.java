@@ -27,5 +27,9 @@ public interface ProblemInstanceRepository extends CrudRepository<ProblemInstanc
     @Transactional
     @Query("SELECT p FROM ProblemInstance p WHERE p.user.username = :#{#username }")
     ArrayList<ProblemInstance> findAllForUser(@Param("username")String username);
+
+    @Transactional
+    @Query("SELECT max(p.indexInQueue) FROM ProblemInstance p")
+    Integer findMaxIndex();
     
 }
