@@ -12,6 +12,7 @@ import java.util.List;
 import com.tsp.repository.ProblemInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProblemInstanceService {
@@ -28,11 +29,43 @@ public class ProblemInstanceService {
     }
 
     public ProblemInstance findOne(long id) {
-
         return repository.findOne(id);
     }
 
     public void deleteOne(long id) {
         repository.delete(id);
     }
+
+    @Transactional
+    public void upProblem(long id) {
+        ProblemInstance p = repository.findOne(id);
+        int index = p.getIndexInQueue();
+        if(index > 1) {
+            ProblemInstance other = repository.findByIndexInQueue(index - 1);
+
+            other.setIndexInQueue(other.getIndexInQueue() + 1);
+            p.setIndexInQueue(p.getIndexInQueue() - 1);
+            repository.save(p);
+            repository.save(other);
+
+
+        }
+    }
+
+    @Transactional
+    public void downProblem(long id) {
+        ProblemInstance p = repository.findOne(id);
+        int index = p.getIndexInQueue();
+        ProblemInstance other = repository.findByIndexInQueue(index + 1);
+            if(other != null) {
+                other.setIndexInQueue(other.getIndexInQueue() - 1);
+                p.setIndexInQueue(p.getIndexInQueue() + 1);
+                repository.save(p);
+                repository.save(other);
+            }
+
+
+    }
+
+
 }

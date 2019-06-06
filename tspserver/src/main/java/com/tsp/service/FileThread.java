@@ -60,6 +60,15 @@ public class FileThread {
             User user = userRepository.findOne(username);
             problem.setUser(user);
             problem.setDateOfOrdering(new Date());
+
+            Integer index = problemRepository.findMaxIndex();
+            if(index == null)
+            {
+                problem.setIndexInQueue(0 + 1);
+            }else{
+                problem.setIndexInQueue(index + 1);
+            }
+
             problemRepository.save(problem);
             LOGGER.info(
                     "Received new job request from user: {}. ID: {} SIZE: {}",
