@@ -2,7 +2,11 @@ package com.tsp.cluster.runner;
 
 import com.tsp.cluster.WorkerManager;
 import com.tsp.cluster.handler.BruteForceJobHandler;
+import com.tsp.cluster.instance.HardcodedInstanceProvider;
+import com.tsp.cluster.instance.ProblemInstance;
+import com.tsp.cluster.job.JobContext;
 import com.tsp.cluster.job.JobQueue;
+import com.tsp.cluster.task.provider.BruteForceTaskProvider;
 
 import java.net.ServerSocket;
 import java.util.concurrent.CyclicBarrier;
@@ -18,23 +22,21 @@ public class BruteForceJobRunner implements Runnable {
 
     @Override
     public void run() {
+        workerManager.openRegistration();
+        workerManager.registerWorkers();
         try {
-            workerManager.openRegistration();
-            new Thread(() -> workerManager.registerWorkers()).start();
-            Thread.sleep(20000);
-            workerManager.closeRegistration();
-
-            final CyclicBarrier barrier = new CyclicBarrier(workerManager.workers.size(), JobQueue::updateCurrentJob);
-
-            workerManager.workers.forEach(
-                    (id, worker) -> new Thread(
-                            new BruteForceJobHandler(worker.getSocket(), barrier)
-                    ).start()
-            );
-
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        final CyclicBarrier barrier = new CyclicBarrier(workerManager.workers.size(), JobQueue::handleJobFinish);
+        workerManager.workers.forEach(
+                (id, worker) -> new Thread(
+                        new BruteForceJobHandler(worker.getSocket(), barrier)
+                ).start()
+        );
+
     }
 
     private synchronized boolean isStopped() {

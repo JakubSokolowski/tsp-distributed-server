@@ -45,7 +45,7 @@ public class JobHandler implements Runnable {
             pw.println("NEW_CONTEXT");
             pw.println(gson.toJson(ctx.getProblemData()));
             LOGGER.info(
-                    "Sent new job context. Instance ID: {} SIZE: ",
+                    "Sent new job context. Instance ID: {} SIZE: {}",
                     ctx.getProblemInstance().getId(),
                     ctx.getProblemData().getNumOfCities()
             );
@@ -54,6 +54,11 @@ public class JobHandler implements Runnable {
                 LOGGER.error("Did not receive RECEIVED_CONTEXT message from worker");
                 throw new IOException("Error while sending context");
             }
+            LOGGER.info(
+                    "Worker: {}:{}. Received Context",
+                    clientSocket.getInetAddress(),
+                    clientSocket.getPort()
+            );
 
         } catch (IOException ex) {
             LOGGER.error("Error while sending context due to: {}", ex.getMessage());

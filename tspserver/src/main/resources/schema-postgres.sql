@@ -29,6 +29,7 @@ create table problems (
     is_solving boolean,
     date_of_ordering DATE,
     username_of_user varchar(50) not null,
+    status varchar(50),
     foreign key (username_of_user) references users (username)
 );
 

@@ -2,7 +2,12 @@ package com.tsp;
 
 
 import com.tsp.cluster.WorkerManager;
+import com.tsp.cluster.instance.HardcodedInstanceProvider;
+import com.tsp.cluster.instance.ProblemInstance;
+import com.tsp.cluster.job.JobContext;
+import com.tsp.cluster.job.JobQueue;
 import com.tsp.cluster.runner.BruteForceJobRunner;
+import com.tsp.cluster.task.provider.BruteForceTaskProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

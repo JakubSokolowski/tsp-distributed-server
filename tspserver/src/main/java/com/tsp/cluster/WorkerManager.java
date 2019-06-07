@@ -28,7 +28,7 @@ public class WorkerManager {
                 clientSocket = this.serverSocket.accept();
                 Worker worker = new Worker(clientSocket);
                 addWorker(worker);
-                int maxWorkerNum = 10;
+                int maxWorkerNum = 1;
                 if (workers.size() >= maxWorkerNum) {
                     closeRegistration();
                 }
@@ -49,9 +49,11 @@ public class WorkerManager {
         isRegistrationOpen = true;
     }
 
-    public synchronized void closeRegistration() {
+    public synchronized void closeRegistration() throws IOException {
         LOGGER.info("Closed registration");
         isRegistrationOpen = false;
+        serverSocket.close();
+        serverSocket = null;
     }
 
     public void stopAllWorkers() {

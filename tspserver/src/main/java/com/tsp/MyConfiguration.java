@@ -46,7 +46,7 @@ public class MyConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/Orders").hasAuthority("USER")
+                .antMatchers("/Orders").hasAnyAuthority("USER","ADMIN")
                 .antMatchers("/Orders/All").hasAuthority("ADMIN")
                 .antMatchers("/Queue/Up").hasAuthority("ADMIN")
                 .antMatchers("/Queue/Down").hasAuthority("ADMIN")
@@ -54,7 +54,7 @@ public class MyConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Queue/Stop").hasAuthority("ADMIN")
 
                 .antMatchers("/Login").hasAnyAuthority("USER","ADMIN")
-                .antMatchers("/Files").hasAuthority("USER")
+                .antMatchers("/Files").hasAnyAuthority("USER", "ADMIN")
                 .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//We don't need sessions to be created.
     }

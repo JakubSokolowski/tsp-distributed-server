@@ -46,7 +46,7 @@ public class BruteForceJobHandler extends JobHandler {
                         cyclicBarrier.await();
                         sendCurrentJobContext();
                     } catch (InterruptedException | BrokenBarrierException e) {
-                        LOGGER.info("Error waiting for workers to finish job execution due to: ", e.getMessage());
+                        LOGGER.info("Error waiting for workers to finish job execution due to: {}", e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -61,9 +61,10 @@ public class BruteForceJobHandler extends JobHandler {
     }
 
     private void sendNextTask() {
+        LOGGER.info("Sending task to worker: {}:{}", clientSocket.getInetAddress(), clientSocket.getPort() );
         BruteForceTaskContext task = (BruteForceTaskContext) JobQueue.getCurrentJob().getNextAvailableTask();
         String str = gson.toJson(task);
         pw.println(str);
-        LOGGER.info("Sending task: {}", str);
+        LOGGER.info("Send task: {} to worker: {}:{}", str, clientSocket.getInetAddress(), clientSocket.getPort() );
     }
 }

@@ -8,6 +8,8 @@ import com.tsp.graph.GraphRepresentation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
+
 public class JobContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(JobContext.class.getName());
 
@@ -30,7 +32,9 @@ public class JobContext {
     }
 
     public void setJobState(JobState jobState) {
+        LOGGER.info("Set current job state to: {}", jobState.toString());
         this.jobState = jobState;
+        this.problemInstance.setState(jobState);
     }
 
     public synchronized Solution getBestSolution() {
@@ -77,5 +81,17 @@ public class JobContext {
             bestSolution = solution;
         }
 
+    }
+
+    public synchronized void setPositionInQueue(int position) {
+        problemInstance.setIndexInQueue(position);
+    }
+
+    public synchronized int getPositionInQueue() {
+        return problemInstance.getIndexInQueue();
+    }
+
+    public synchronized void setDate() {
+        problemInstance.setDateOfOrdering(new Date());
     }
 }

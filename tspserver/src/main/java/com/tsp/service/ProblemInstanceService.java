@@ -9,13 +9,17 @@ import com.tsp.cluster.instance.ProblemInstance;
 
 import java.util.List;
 
+import com.tsp.cluster.job.JobQueue;
 import com.tsp.repository.ProblemInstanceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProblemInstanceService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProblemInstanceService.class.getName());
 
     @Autowired
     private ProblemInstanceRepository repository;
@@ -46,68 +50,64 @@ public class ProblemInstanceService {
 
     @Transactional
     public void upProblem(long id) {
-        ProblemInstance p = repository.findOne(id);
-        int index = p.getIndexInQueue();
-        if(index > 1) {
-            ProblemInstance other = repository.findByIndexInQueue(index - 1);
-            if(other == null)return;
-            if(other.isSolving())return;
-            other.setIndexInQueue(other.getIndexInQueue() + 1);
-            p.setIndexInQueue(p.getIndexInQueue() - 1);
-            repository.save(p);
-            repository.save(other);
-
-
-        }
+        JobQueue.moveUp(id);
+//        ProblemInstance p = repository.findOne(id);
+//        int index = p.getIndexInQueue();
+//        if(index > 1) {
+//            ProblemInstance other = repository.findByIndexInQueue(index - 1);
+//            if(other == null)return;
+//            if(other.isSolving())return;
+//            other.setIndexInQueue(other.getIndexInQueue() + 1);
+//            p.setIndexInQueue(p.getIndexInQueue() - 1);
+//            repository.save(p);
+//            repository.save(other);
+//
+//
+//        }
     }
 
     @Transactional
     public void downProblem(long id) {
+        JobQueue.moveDown(id);
 
-        ProblemInstance p = repository.findOne(id);
-        if(p.isSolving())return;
-        int index = p.getIndexInQueue();
-        ProblemInstance other = repository.findByIndexInQueue(index + 1);
-            if(other != null) {
-                other.setIndexInQueue(other.getIndexInQueue() - 1);
-                p.setIndexInQueue(p.getIndexInQueue() + 1);
-                repository.save(p);
-                repository.save(other);
-            }
+//        ProblemInstance p = repository.findOne(id);
+//        if(p.isSolving())return;
+//        int index = p.getIndexInQueue();
+//        ProblemInstance other = repository.findByIndexInQueue(index + 1);
+//            if(other != null) {
+//                other.setIndexInQueue(other.getIndexInQueue() - 1);
+//                p.setIndexInQueue(p.getIndexInQueue() + 1);
+//                repository.save(p);
+//                repository.save(other);
+//            }
 
 
     }
 
     @Transactional
     public void startProblem(long id) {
-        ProblemInstance p = repository.findOne(id);
-        if(p!=null)
-        {
-            ProblemInstance other = repository.findByIndexInQueue(1);
-            if(p.getId() != other.getId())
-            {
-                other.setIndexInQueue(p.getIndexInQueue());
-                other.setSolving(false);
-                p.setIndexInQueue(1);
-                repository.save(other);
-            }
-            p.setSolving(true);
-            repository.save(p);
-        }
+//        ProblemInstance p = repository.findOne(id);
+//        if(p!=null)
+//        {
+//            ProblemInstance other = repository.findByIndexInQueue(1);
+//            if(p.getId() != other.getId())
+//            {
+//                other.setIndexInQueue(p.getIndexInQueue());
+//                other.setSolving(false);
+//                p.setIndexInQueue(1);
+//                repository.save(other);
+//            }
+//            p.setSolving(true);
+//            repository.save(p);
+//        }
 
 
     }
 
     @Transactional
     public void stopProblem(long id) {
-        ProblemInstance p = repository.findOne(id);
-        if(p!=null)
-        {
-            p.setSolving(false);
-            repository.save(p);
-        }
-
-
+        LOGGER.info("Service received STOP message for instance: {}", id);
+        JobQueue.cancelJob(id);
     }
 
 

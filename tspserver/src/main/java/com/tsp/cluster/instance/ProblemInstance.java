@@ -3,7 +3,11 @@ package com.tsp.cluster.instance;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tsp.bean.User;
 import com.tsp.cluster.common.Algorithm;
+import com.tsp.cluster.job.JobQueue;
+import com.tsp.cluster.job.JobState;
 import com.tsp.graph.GraphRepresentation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "problems")
 public class ProblemInstance {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProblemInstance.class.getName());
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "problem_id")
@@ -38,10 +43,13 @@ public class ProblemInstance {
     private User user;
 
     @Column(name = "time_of_running_in_seconds")
-    private int timeOfRunningInSeconds;
+    private long timeOfRunningInSeconds;
 
     @Column(name = "index_in_queue")
     private int indexInQueue;
+
+    @Column(name = "status")
+    private JobState state;
 
     public ProblemInstance() {
         algorithm = Algorithm.BRUTE_FORCE;
@@ -126,15 +134,15 @@ public class ProblemInstance {
         this.percentageOfProgress = percentageOfProgress;
     }
 
-    public int getTimeOfRunningInSecconds() {
+    public long getTimeOfRunningInSecconds() {
         return timeOfRunningInSeconds;
     }
 
-    public void setTimeOfRunningInSecconds(int timeOfRunningInSeconds) {
+    public void setTimeOfRunningInSecconds(long timeOfRunningInSeconds) {
         this.timeOfRunningInSeconds = timeOfRunningInSeconds;
     }
 
-    public int getTimeOfRunningInSeconds() {
+    public long getTimeOfRunningInSeconds() {
         return timeOfRunningInSeconds;
     }
 
@@ -146,8 +154,9 @@ public class ProblemInstance {
         return indexInQueue;
     }
 
-    public void setIndexInQueue(int indexInQueue) {
-        this.indexInQueue = indexInQueue;
+    public void setIndexInQueue(int index) {
+        LOGGER.info("Setting new index for job: {}. prev: {} curr: {}", id, indexInQueue, index);
+        this.indexInQueue = index;
     }
 
     @Override
@@ -188,5 +197,13 @@ public class ProblemInstance {
                 ", timeOfRunningInSeconds=" + timeOfRunningInSeconds +
                 ", indexInQueue=" + indexInQueue +
                 '}';
+    }
+
+    public JobState getState() {
+        return state;
+    }
+
+    public void setState(JobState state) {
+        this.state = state;
     }
 }
